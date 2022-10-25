@@ -1,4 +1,5 @@
 using AutoMapper;
+using WebApi.Common;
 using WebApi.DBOperations;
 
 namespace WebApi.BookOperations.UpdateBook
@@ -9,7 +10,7 @@ namespace WebApi.BookOperations.UpdateBook
         private readonly IMapper _mapper;
         public int? Id { get; set; }
         public UpdateBookModel Model { get; set; }
-
+        
         public UpdateBookCommand(BookStoreDbContext context, IMapper mapper)
         {
             _context = context;
@@ -28,7 +29,7 @@ namespace WebApi.BookOperations.UpdateBook
         public class UpdateBookModel
         {
             public string? Title { get; set; }
-            public int GenreId { get; set; }
+            public GenreEnum GenreId { get; set; }
             public int PageCount { get; set; }
             public DateTime PublishDate { get; set; }
         }
