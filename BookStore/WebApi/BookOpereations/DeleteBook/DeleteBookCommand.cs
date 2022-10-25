@@ -14,8 +14,6 @@ namespace WebApi.BookOperations.DeleteBook
 
         public void Handle()
         {
-            if (Id is null)
-                throw new InvalidOperationException("Id is empty");
             var existingBook = _context.Books.SingleOrDefault(x => x.Id == Id);
             if(existingBook is null)
                 throw new InvalidOperationException("The book is not exist");

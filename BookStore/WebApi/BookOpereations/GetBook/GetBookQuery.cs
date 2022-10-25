@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using WebApi.Common;
+using AutoMapper;
 using WebApi.DBOperations;
 
 namespace WebApi.BookOperations.GetBook
@@ -11,27 +6,32 @@ namespace WebApi.BookOperations.GetBook
     public class GetBookQuery
     {
         private readonly BookStoreDbContext _context;
+        private readonly IMapper _mapper;
         public int? Id { get; set; }
-        public GetBookQuery(BookStoreDbContext context)
+        public GetBookQuery(BookStoreDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public BookViewModel Handle()
         {
-            if (Id is null)
-                throw new InvalidOperationException("Id is empty");
             var book = _context.Books.SingleOrDefault(x => x.Id == Id);
             if (book is null)
                 throw new InvalidOperationException("The book is not found");
-            BookViewModel vm = new BookViewModel
-            {
-                Title = book.Title,
-                GenreName = ((GenreEnum)book.GenreId).ToString(),
-                PublishDate = book.PublishDate.Date.ToString("dd/MM/yyyy"),
-                PageCount = book.PageCount
-            };
+            BookViewModel vm = _mapper.Map<BookViewModel>(book);
             return vm;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is GetBookQuery query &&
+                   EqualityComparer<IMapper>.Default.Equals(_mapper, query._mapper);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_mapper);
         }
     }
 

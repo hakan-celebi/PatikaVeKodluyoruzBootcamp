@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using WebApi.Common;
+using AutoMapper;
 using WebApi.DBOperations;
 
 namespace WebApi.BookOperations.UpdateBook
@@ -11,27 +6,22 @@ namespace WebApi.BookOperations.UpdateBook
     public class UpdateBookCommand
     {
         private readonly BookStoreDbContext _context;
+        private readonly IMapper _mapper;
         public int? Id { get; set; }
         public UpdateBookModel Model { get; set; }
 
-        public UpdateBookCommand(BookStoreDbContext context)
+        public UpdateBookCommand(BookStoreDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void Handle()
         {
-            if (Model is null)
-                throw new InvalidOperationException("The book data is empty");
-            if (Id is null)
-                throw new InvalidOperationException("Id is empty");
             var existingBook = _context.Books.SingleOrDefault(x => x.Id == Id);
             if(existingBook is null)
                 throw new InvalidOperationException("The book is not exist");
-            existingBook.GenreId = Model.GenreId != default ? Model.GenreId : existingBook.GenreId;
-            existingBook.PageCount = Model.PageCount != default ? Model.PageCount : existingBook.PageCount;
-            existingBook.PublishDate = Model.PublishDate != default ? Model.PublishDate : existingBook.PublishDate;
-            existingBook.Title = Model.Title != default ? Model.Title : existingBook.Title;
+            existingBook = _mapper.Map(Model, existingBook);
             _context.SaveChanges();
         }
 

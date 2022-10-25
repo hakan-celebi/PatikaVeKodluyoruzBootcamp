@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using WebApi.Common;
+using AutoMapper;
 using WebApi.DBOperations;
 
 namespace WebApi.BookOperations.CreateBook
@@ -11,27 +6,21 @@ namespace WebApi.BookOperations.CreateBook
     public class CreateBookCommand
     {
         private readonly BookStoreDbContext _context;
+        private readonly IMapper _mapper;
         public CreateBookModel Model { get; set; }
 
-        public CreateBookCommand(BookStoreDbContext context)
+        public CreateBookCommand(BookStoreDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public void Handle()
         {
-            if(Model is null)
-                throw new InvalidOperationException("The book data is empty");
             var existingBook = _context.Books.SingleOrDefault(x => x.Title == Model.Title);
             if(existingBook is not null)
                 throw new InvalidOperationException("The book is already exist");
-            var book = new Book
-            {
-                Title = Model.Title,
-                PublishDate = Model.PublishDate,
-                PageCount = Model.PageCount,
-                GenreId = Model.GenreId
-            };
+            var book = _mapper.Map<Book>(Model);
             _context.Books.Add(book);
             _context.SaveChanges();
         }
