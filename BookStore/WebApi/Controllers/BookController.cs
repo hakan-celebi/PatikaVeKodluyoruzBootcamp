@@ -2,14 +2,12 @@ using System.Collections.Generic;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using WebApi.BookOperations.CreateBook;
-using WebApi.BookOperations.DeleteBook;
-using WebApi.BookOperations.GetBook;
-using WebApi.BookOperations.GetBooks;
-using WebApi.BookOperations.UpdateBook;
+using WebApi.Application.BookOperations.Commands.CreateBook;
+using WebApi.Application.BookOperations.Commands.DeleteBook;
+using WebApi.Application.BookOperations.Queries.GetBookDetail;
+using WebApi.Application.BookOperations.Queries.GetBooks;
+using WebApi.Application.BookOperations.Commands.UpdateBook;
 using WebApi.DBOperations;
-using static WebApi.BookOperations.CreateBook.CreateBookCommand;
-using static WebApi.BookOperations.UpdateBook.UpdateBookCommand;
 
 namespace WebApi.Controllers
 {
@@ -25,22 +23,22 @@ namespace WebApi.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            GetBookDetailQuery query = new GetBookDetailQuery(_context, _mapper);
+            GetBookDetailQueryValidator validator = new GetBookDetailQueryValidator();
+            query.Id = id;
+            validator.ValidateAndThrow(query);
+            BookViewModel vm = query.Handle();
+            return Ok(vm);
+        }
+
         [HttpGet]
         public IActionResult GetBooks()
         {
             GetBooksQuery query = new GetBooksQuery(_context, _mapper);
-            return Ok(query.Handle());
-        }
-
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {
-            GetBookQuery query = new GetBookQuery(_context, _mapper);
-            GetBookQueryValidator validator = new GetBookQueryValidator();
-            query.Id = id;
-            BookViewModel vm;
-            validator.ValidateAndThrow(query);
-            vm = query.Handle();
+            List<BooksViewModel> vm = query.Handle();
             return Ok(vm);
         }
 
@@ -48,7 +46,7 @@ namespace WebApi.Controllers
         public IActionResult AddBook([FromBody] CreateBookModel newBook)
         {
             CreateBookCommand command = new CreateBookCommand(_context, _mapper);
-            CreateBookCommandValidator validator = new CreateBookCommandValidator();   
+            CreateBookCommandValidator validator = new CreateBookCommandValidator(_context);   
             command.Model = newBook;                     
             validator.ValidateAndThrow(command);
             command.Handle();       
@@ -59,7 +57,7 @@ namespace WebApi.Controllers
         public IActionResult UpdateBook(int id, [FromBody] UpdateBookModel updatedBook)
         {
             UpdateBookCommand command = new UpdateBookCommand(_context, _mapper);
-            UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
+            UpdateBookCommandValidator validator = new UpdateBookCommandValidator(_context);
             command.Id = id;
             command.Model = updatedBook;
             validator.ValidateAndThrow(command);
