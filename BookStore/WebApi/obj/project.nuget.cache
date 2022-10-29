@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fpYgXQm+z0ClHuHnCPHApAfVwdmIBflZh40uVi66oTSRzYJzp/8aaEVyXQT2obYbP01ht0UTadev/e2J2NL/Ag==",
+  "dgSpecHash": "tv/YMDdmDnc4RL2qJF+ohYGDJKZc2x/7jSztA28Xqv58rHsJZScM+MOmfbCEC1L0HlWGuAkmE9JxV5u6g8qctA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj",
+  "projectFilePath": "c:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\hkncl\\.nuget\\packages\\automapper\\12.0.0\\automapper.12.0.0.nupkg.sha512",
     "C:\\Users\\hkncl\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.0\\automapper.extensions.microsoft.dependencyinjection.12.0.0.nupkg.sha512",

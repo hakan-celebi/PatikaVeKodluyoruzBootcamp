@@ -5,11 +5,11 @@ namespace WebApi.Application.GenreOperations.Commands.UpdateGenre
 {
     public class UpdateGenreCommand
     {
-        private readonly BookStoreDbContext _context;
+        private readonly IBookStoreDbContext _context;
         private readonly IMapper _mapper;
         public int Id { get; set; }
         public UpdateGenreModel Model { get; set; }
-        public UpdateGenreCommand(BookStoreDbContext context, IMapper mapper)
+        public UpdateGenreCommand(IBookStoreDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -20,8 +20,8 @@ namespace WebApi.Application.GenreOperations.Commands.UpdateGenre
             var genre = _context.Genres.SingleOrDefault(x => x.Id == Id);
             if (genre is null)
                 throw new InvalidOperationException("The genre is not found");
-            if (Model.Name is not null && _context.Genres.Any(x => x.Name.ToLower() == Model.Name!.ToLower() && x.Id != Id))
-                throw new InvalidOperationException($"The genre is already exist");
+            if (Model.Name is not null && _context.Genres.Any(x => x.Name.ToLower() == Model.Name!.ToLower().Trim() && x.Id != Id))
+                throw new InvalidOperationException("The genre is already exist");
             genre = _mapper.Map(Model, genre);
             _context.SaveChanges();
         }

@@ -6,10 +6,10 @@ namespace WebApi.Application.AuthorOperations.Commands.DeleteAuthor
 {
     public class DeleteAuthorCommand
     {
-        private readonly BookStoreDbContext _context;
+        private readonly IBookStoreDbContext _context;
         public int Id {get; set; }
 
-        public DeleteAuthorCommand(BookStoreDbContext context)
+        public DeleteAuthorCommand(IBookStoreDbContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace WebApi.Application.AuthorOperations.Commands.DeleteAuthor
                 throw new InvalidOperationException("The Author is not found");
             if(_context.Books.Any(x => x.AuthorId == Id))
                 throw new InvalidOperationException("The Author is using by a book");
-            _context.Remove(author);
+            _context.Authors.Remove(author);
             _context.SaveChanges();
         }
     }

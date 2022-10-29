@@ -7,11 +7,11 @@ namespace WebApi.Application.BookOperations.Commands.CreateBook
 {
     public class CreateBookCommand
     {
-        private readonly BookStoreDbContext _context;
+        private readonly IBookStoreDbContext _context;
         private readonly IMapper _mapper;
         public CreateBookModel Model { get; set; }
 
-        public CreateBookCommand(BookStoreDbContext context, IMapper mapper)
+        public CreateBookCommand(IBookStoreDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -19,7 +19,7 @@ namespace WebApi.Application.BookOperations.Commands.CreateBook
 
         public void Handle()
         {
-            var existingBook = _context.Books.SingleOrDefault(x => x.Title.ToLower() == Model.Title.ToLower());
+            var existingBook = _context.Books.SingleOrDefault(x => x.Title.ToLower() == Model.Title.ToLower().Trim());
             if(existingBook is not null)
                 throw new InvalidOperationException("The book is already exist");
             var book = _mapper.Map<Book>(Model);

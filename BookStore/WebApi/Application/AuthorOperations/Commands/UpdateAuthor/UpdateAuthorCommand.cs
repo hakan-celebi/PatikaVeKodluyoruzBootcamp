@@ -6,11 +6,11 @@ namespace WebApi.Application.AuthorOperations.Commands.UpdateAuthor
 {
     public class UpdateAuthorCommand
     {
-        private readonly BookStoreDbContext _context;
+        private readonly IBookStoreDbContext _context;
         private readonly IMapper _mapper;
         public int Id { get; set; }
         public UpdateAuthorModel Model { get; set; }
-        public UpdateAuthorCommand(BookStoreDbContext context, IMapper mapper)
+        public UpdateAuthorCommand(IBookStoreDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -23,7 +23,7 @@ namespace WebApi.Application.AuthorOperations.Commands.UpdateAuthor
                 throw new InvalidOperationException("The Author is not found");
             author = _mapper.Map(Model, author);
             string fullName = NameConverter.ConvertToFullName(author.FirstName, author.MiddleName, author.LastName);
-            if (_context.Authors.Any(x => NameConverter.ConvertToFullName(x.FirstName, x.MiddleName, x.LastName) == fullName))
+            if (_context.Authors.Any(x => x.Id != Id && NameConverter.ConvertToFullName(x.FirstName, x.MiddleName, x.LastName) == fullName))
                 throw new InvalidOperationException("The Author is already exist");
             _context.SaveChanges();
         }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj": {}
+    "c:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj": {
+    "c:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj",
+        "projectUniqueName": "c:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj",
         "projectName": "WebApi",
-        "projectPath": "C:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj",
+        "projectPath": "c:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\WebApi.csproj",
         "packagesPath": "C:\\Users\\hkncl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\obj\\",
+        "outputPath": "c:\\Users\\hkncl\\Desktop\\Patika&Kodluyoruz Bootcamp\\.NET6\\BookStore\\WebApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

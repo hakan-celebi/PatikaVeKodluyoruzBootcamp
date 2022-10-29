@@ -13,7 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
+builder.Services.AddScoped<IBookStoreDbContext>(provider => provider.GetService<BookStoreDbContext>()!);
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
+// Logger Dependency Injection
 builder.Services.AddSingleton<ILoggerService, LoggerManager>();
 builder.Services.AddSingleton<ISingleLogger, ConsoleLogger>();
 builder.Services.AddSingleton<ISingleLogger, DBLogger>();

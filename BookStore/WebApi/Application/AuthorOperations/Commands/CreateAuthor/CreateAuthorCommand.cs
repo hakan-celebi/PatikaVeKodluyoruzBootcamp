@@ -6,11 +6,11 @@ namespace WebApi.Application.AuthorOperations.Commands.CreateAuthor
 {
     public class CreateAuthorCommand
     {
-        private readonly BookStoreDbContext _context;
+        private readonly IBookStoreDbContext _context;
         private readonly IMapper _mapper;
         public CreateAuthorModel Model { get; set; }
 
-        public CreateAuthorCommand(BookStoreDbContext context, IMapper mapper)
+        public CreateAuthorCommand(IBookStoreDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
@@ -19,14 +19,14 @@ namespace WebApi.Application.AuthorOperations.Commands.CreateAuthor
         public void Handle()
         {
             var author = _context.Authors.SingleOrDefault(x => 
-                x.FirstName.ToLower() == Model.FirstName!.ToLower() &&
-                (x.MiddleName != null ? x.MiddleName.ToLower() : string.Empty) == (Model.MiddleName != null ? Model.MiddleName.ToLower() : string.Empty) &&
-                x.LastName.ToLower() == Model.LastName!.ToLower()
+                x.FirstName.ToLower() == Model.FirstName!.ToLower().Trim() &&
+                (x.MiddleName != null ? x.MiddleName.ToLower() : string.Empty) == (Model.MiddleName != null ? Model.MiddleName.ToLower().Trim() : string.Empty) &&
+                x.LastName.ToLower() == Model.LastName!.ToLower().Trim()
             );
             if(author is not null)
                 throw new InvalidOperationException("The author is already exist");
             author = _mapper.Map<Author>(Model);
-            _context.Add(author);
+            _context.Authors.Add(author);
             _context.SaveChanges();
         }
     }

@@ -6,10 +6,10 @@ namespace WebApi.Application.GenreOperations.Commands.DeleteGenre
 {
     public class DeleteGenreCommand
     {
-        private readonly BookStoreDbContext _context;
+        private readonly IBookStoreDbContext _context;
         public int Id {get; set; }
 
-        public DeleteGenreCommand(BookStoreDbContext context)
+        public DeleteGenreCommand(IBookStoreDbContext context)
         {
             _context = context;
         }
@@ -19,9 +19,9 @@ namespace WebApi.Application.GenreOperations.Commands.DeleteGenre
             var genre = _context.Genres.SingleOrDefault(x => x.Id == Id);
             if(genre is null)
                 throw new InvalidOperationException("The genre is not found");
-            if(genre.Books.Any(x => x.GenreId == Id))
-                throw new InvalidOperationException("The genre is using by a book");
-            _context.Remove(genre);
+            if(_context.Books.Any(x => x.GenreId == Id))
+                throw new InvalidOperationException("The genre is using by any book");
+            _context.Genres.Remove(genre);
             _context.SaveChanges();
         }
     }
